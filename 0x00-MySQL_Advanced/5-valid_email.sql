@@ -1,5 +1,5 @@
 -- creates a trigger that resets the attribute valid_email only when the email has been changed.
-DELIMETER $$
+DELIMITER $$
 CREATE TRIGGER reset_email
 BEFORE UPDATE ON users
 FOR EACH ROW BEGIN
@@ -8,4 +8,4 @@ FOR EACH ROW BEGIN
 	END IF;
 END $$
 
-DELIMETER;
+DELIMITER;
