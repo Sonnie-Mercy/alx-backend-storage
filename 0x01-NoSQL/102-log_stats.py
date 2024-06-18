@@ -30,7 +30,7 @@ def log_stats():
     ]
 
     top = list(collection.aggregate(pipeline))
-    print("ÏPs:")
+    print("IPs:")
     for ip_data in top:
         ip = ip_data["_id"]
         count = ip_data["count"]
