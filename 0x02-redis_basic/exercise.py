@@ -28,9 +28,9 @@ def count_calls(method: Callable) -> Callable:
     """count calls decorator"""
     @wraps(method)
     def wrapper(self, *args, **kwargs):
-        key = f"{self.__class__.__qualname__}.{method.__name__}"
-        count_key = f"{key}:count"
-        count = self._redis.incr(count_key)
+        """wrapper function"""
+        key = method.__qualname__
+        self._redis.incr(key)
         return method(self, *args, **kwargs)
     return wrapper
 
