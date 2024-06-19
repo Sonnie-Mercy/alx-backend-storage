@@ -34,18 +34,6 @@ def count_calls(method: Callable) -> Callable:
         return method(self, *args, **kwargs)
     return wrapper
 
-def replay(method: Callable) -> None:
-    """replay method"""
-    key = f"{method.__qualname__}:inputs"
-    inputs = cache._redis.lrange(key, 0, -1)
-
-    key = f"{method.__qualname__}:outputs"
-    outputs = cache._redis.lrange(key, 0, -1)
-    print(f"{method.__qualname__} was called {len(inputs)} times:")
-
-    for input_args, output in zip(inputs, outputs):
-        print(f"{method.__qualname__}(*{input_args.decode('utf-8').strip()},) -> {output.decode('utf-8')}")
-
 class Cache:
     """
     The cache class
@@ -80,3 +68,15 @@ class Cache:
     def get_int(self, key: str) -> Union[int, None]:
         """get_int method"""
         return self.get(key, fn=int)
+
+def replay(method: Callable):
+    """replay function to retrieve lists"""
+    rinstance = redis.Redis()
+    input_key = f"{method.__qualname__}:inputs"
+    output_key = f"{method.__qualname__}:outputs"
+    inputs = rinstance.lrange(input_key, 0, -1)
+    outputs = rinstance.lrange(output_key, 0, -1)
+    print(f"{method.__qualname__} was called {len(inputs)} times:")
+    for input_args, output in zip(inputs, outputs):
+        print(f"{method.__qualname__}(*{input_args.decode('utf-8')}) -> {output.decode('utf-8')}")
+
