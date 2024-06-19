@@ -81,5 +81,6 @@ def replay(method: Callable):
     outputs = rinstance.lrange(output_key, 0, -1)
     print(f"{method.__qualname__} was called {len(inputs)} times:")
     for input_args, output in zip(inputs, outputs):
-        print(f"{method.__qualname__}(*{input_args.decode('utf-8')}) ->
-                                        {output.decode('utf-8')}")
+        in_args_str = input_args.decode('utf-8')
+        out_str = output.decode('utf-8')
+        print(f"{method.__qualname__}(*{in_args_str}) -> {out_str}")
